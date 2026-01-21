@@ -19,9 +19,7 @@ public:
     MoveArmToPose(
         const std::string& name, 
         const BT::NodeConfig& config,
-        // from nrg_behaviors structure
         std::weak_ptr<rclcpp::Node> node_ptr = {},
-        // std::string sub_namespace = "",
         tf2_ros::Buffer::SharedPtr tf_buffer = nullptr
         );
 
@@ -33,18 +31,13 @@ public:
 
 
 protected:
-    // MoveIt
-    std::shared_ptr<moveit::planning_interface::MoveGroupInterface> move_group_;
+    // ROS
     std::shared_ptr<tf2_ros::Buffer> tf_buffer_;
     std::optional<tf2_ros::TransformListener> tf_listener_;
-    moveit::planning_interface::MoveGroupInterface move_group_;
-
-
-    // ROS
     std::weak_ptr<rclcpp::Node> node_ptr_;
 
-    // std::future<bool> future_;
-
+    // MoveIt
+    std::unique_ptr<moveit::planning_interface::MoveGroupInterface> move_group_;
 
 };
 

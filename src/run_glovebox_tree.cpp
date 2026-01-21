@@ -24,7 +24,13 @@ int main(int argc, char **argv)
     auto tf_listener = std::make_shared<tf2_ros::TransformListener>(*tf_buffer);
 
     // Register custom nodes
-    factory.registerNodeType<MoveArmToPose>("MoveArmToPose");
+    factory.registerBuilder<MoveArmToPose>(
+        "MoveArmToPose",
+          [&](const std::string& name, const BT::NodeConfig& config) {
+        return std::make_unique<MoveArmToPose>(
+        name, config, node, tf_buffer);
+        });
+    
 
     // Load BehaviorTree from installed file
     std::string share_path = ament_index_cpp::get_package_share_directory("glovebox_bt");
@@ -35,10 +41,15 @@ int main(int argc, char **argv)
 
     // hard coding target pose for testing
     auto target_pose = std::make_shared<geometry_msgs::msg::PoseStamped>();
-    target_pose->header.frame_id = "Glovebox"; // check if capital G
-    target_pose->pose.position.x = -0.80974;  
-    target_pose->pose.position.y = -0.01147;  
-    target_pose->pose.position.z = 0.320991;
+    target_pose->header.frame_id = "world"; 
+    target_pose->pose.position.x = -0.2974106967;  
+    target_pose->pose.position.y = -0.439534932;  
+    target_pose->pose.position.z = 0.37456676363;
+    target_pose->pose.orientation.x = 0.883836030;
+    target_pose->pose.orientation.y = -0.1143182069;
+    target_pose->pose.orientation.z = -0.0782217308;
+    target_pose->pose.orientation.w = 0.44681826233;
+
     tree.rootBlackboard()->set<std::shared_ptr<geometry_msgs::msg::PoseStamped>>("target_pose", target_pose);
 
     // Tick the tree

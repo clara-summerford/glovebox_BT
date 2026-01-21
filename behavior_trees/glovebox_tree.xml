@@ -1,7 +1,7 @@
 <root BTCPP_format="4" main_tree_to_execute="MainTree">
   <BehaviorTree ID="MainTree">
     <Sequence name="RootSequence">
-    <MoveArmToPose target_pose="{target_pose}"/>
+      <MoveArmToPose target_pose="{target_pose}"/>
     </Sequence>
   </BehaviorTree>
 
